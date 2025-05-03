@@ -23,6 +23,7 @@ REPO_URL6="https://github.com/adafruit/RTClib.git"
 REPO_URL7="https://github.com/johnrickman/LiquidCrystal_I2C.git"
 REPO_URL8="https://github.com/adafruit/Adafruit_SSD1306.git"
 REPO_URL9="https://github.com/adafruit/Adafruit-GFX-Library.git"
+REPO_URL10="https://github.com/PaulStoffregen/Ethernet.git"
 
 # Define the target directory (optional)
 TARGET_DIR="repository"
@@ -37,6 +38,7 @@ git clone $REPO_URL6
 git clone $REPO_URL7
 git clone $REPO_URL8
 git clone $REPO_URL9
+git clone $REPO_URL10
 
 echo "Repositories cloned successfully."
 cd "$TARGET_DIR" || exit

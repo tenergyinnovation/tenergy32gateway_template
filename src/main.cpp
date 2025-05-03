@@ -8,8 +8,26 @@
 #include <Arduino.h>
 #include <tenergy32gateway.h>
 #include <esp_task_wdt.h>
+#include <esp_system.h> // สำหรับ esp_read_mac
 
 Tenergy32GateWay mcu;
+
+// ตัวแปรสำหรับเก็บชื่อ unitName
+String unitName = "";
+
+/***********************************************************************
+ * FUNCTION:    getUnitNameFromMac
+ * DESCRIPTION: สร้างชื่อ unitName จาก MAC Address (6 ตัวหลัง)
+ * RETURNED:    String ชื่อบอร์ด tenergy32gateway-xxxxxx
+ ***********************************************************************/
+String getUnitNameFromMac()
+{
+    uint8_t mac[6];
+    esp_read_mac(mac, ESP_MAC_WIFI_STA);
+    char macStr[7];
+    snprintf(macStr, sizeof(macStr), "%02X%02X%02X", mac[3], mac[4], mac[5]);
+    return "tenergy32gateway-" + String(macStr);
+}
 
 void header_print(void)
 {
@@ -44,47 +62,17 @@ void setup()
 
     // Delay to view initial info
     delay(1000);
+
+    // สร้าง unitName จาก MAC Address
+    unitName = getUnitNameFromMac();
+
+    // แสดงชื่อ unitName บน Serial และ OLED
+    Serial.printf("unitName: %s\r\n", unitName.c_str());
+    mcu.displayOLED(unitName.c_str());
 }
 
 void loop()
 {
-    // อัพเดทวันที่และเวลา จาก RTC
-    uint16_t yr;
-    uint8_t mon, d, hr, min, sec;
-    mcu.getDateTime(yr, mon, d, hr, min, sec);
-
-    char datetimeStr[32];
-    snprintf(datetimeStr, sizeof(datetimeStr), "%04d/%02d/%02d %02d:%02d:%02d", yr, mon, d, hr, min, sec);
-
-    // แสดงวันที่และเวลาผ่าน Serial และ OLED
-    Serial.println(datetimeStr);
-    mcu.displayOLED(datetimeStr);
-
-    // ตรวจสอบปุ่มกด
-    if (mcu.readSW1())
-    {
-        // เมื่อกด SW1 ให้เล่นเสียง Mario, เปิด relay1 และ relay3, ปิด relay2 และ relay4
-        mcu.marioSound();
-        mcu.relay1On();
-        mcu.relay3On();
-        mcu.relay2Off();
-        mcu.relay4Off();
-        Serial.println("SW1 pressed: MarioSound, Relay1 & Relay3 ON, Relay2 & Relay4 OFF");
-        delay(1000);
-    }
-    else if (mcu.readSW2())
-    {
-        // เมื่อกด SW2 ให้เล่นเสียง AngryBird, ปิด relay1 และ relay3, เปิด relay2 และ relay4
-        mcu.angryBirdSound();
-        mcu.relay1Off();
-        mcu.relay3Off();
-        mcu.relay2On();
-        mcu.relay4On();
-        Serial.println("SW2 pressed: AngryBirdSound, Relay1 & Relay3 OFF, Relay2 & Relay4 ON");
-        delay(1000);
-    }
-
-    // รีเซ็ต watchdog timer และ delay ก่อนรอบถัดไป
     esp_task_wdt_reset();
     delay(1000);
 }

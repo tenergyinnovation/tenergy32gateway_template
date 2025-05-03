@@ -20,9 +20,10 @@ set REPO_URL6=https://github.com/adafruit/RTClib.git
 set REPO_URL7=https://github.com/johnrickman/LiquidCrystal_I2C.git
 set REPO_URL8=https://github.com/adafruit/Adafruit_SSD1306.git
 set REPO_URL9=https://github.com/adafruit/Adafruit-GFX-Library.git
+set REPO_URL10=https://github.com/PaulStoffregen/Ethernet.git
 
 REM Define the target directory (optional)
-set TARGET_DIR=repository
+set TARGET_DIR=./
 
 REM Create the target directory if it doesn't exist
 if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%"
@@ -40,6 +41,7 @@ git clone %REPO_URL6%
 git clone %REPO_URL7%
 git clone %REPO_URL8%
 git clone %REPO_URL9%
+git clone %REPO_URL10%
 
 REM List the contents of the target directory
 echo Listing contents of the target directory:
