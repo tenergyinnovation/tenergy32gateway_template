@@ -16,7 +16,7 @@ REM Define the target directory (optional)
 set TARGET_DIR=./
 
 set REPO_URLS=^
-https://github.com/tenergyinnovation/tenergy32hub.git ^
+https://github.com/tenergyinnovation/tenergy32gateway.git ^
 https://github.com/adafruit/Adafruit_SSD1306.git ^
 https://github.com/sandeepmistry/arduino-LoRa.git ^
 https://github.com/adafruit/Adafruit_BusIO.git ^
