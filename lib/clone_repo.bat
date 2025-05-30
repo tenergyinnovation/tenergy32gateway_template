@@ -24,7 +24,7 @@ https://github.com/adafruit/Adafruit_Sensor.git ^
 https://github.com/adafruit/RTClib.git ^
 https://github.com/johnrickman/LiquidCrystal_I2C.git ^
 https://github.com/adafruit/Adafruit-GFX-Library.git ^
-https://github.com/PaulStoffregen/Ethernet.git
+https://github.com/PaulStoffregen/Ethernet.git ^
 
 REM Create the target directory if it doesn't exist
 if not exist "%TARGET_DIR%" mkdir "%TARGET_DIR%"
